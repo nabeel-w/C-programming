@@ -113,10 +113,10 @@ node* remove_f(node* n)
 }
 
 
-void addf(node* head)//adds element before a specific node
+node* addf(node* head)//adds element before a specific node
 {
      node *ptr = head;
-     int b;
+     int b,flag=1;
      printf("enter value of the node :");
      scanf("%d",&b);
      node* temp = malloc(sizeof(struct node));
@@ -124,6 +124,13 @@ void addf(node* head)//adds element before a specific node
      printf("enter the value of the element:");
      scanf("%d",&n);
      temp -> num = n ;
+     if(ptr->num==b)
+            {
+            	temp->next=ptr;
+            	head=temp;
+            	return head;
+            }
+     else{
      while (ptr != NULL)
         {
            if(ptr -> next-> num == b)
@@ -132,9 +139,17 @@ void addf(node* head)//adds element before a specific node
                  ptr ->next= temp;
                  break;
             }
+            else
+            	flag=0;
             ptr= ptr ->next;
         }
+      if(flag==0)
+      {
+         printf("Node not found\n");
+      }
      ptr = head;
+     return head;
+     }
 }
 
 int main(void)
@@ -153,7 +168,7 @@ int main(void)
     }
     printf("\nYour List\n");
     printlist(head);
-    addf(head);
+    head=addf(head);
     printf("\nNew List\n");
     printlist(head);
     printf("\nNew List after deleting first element\n");
