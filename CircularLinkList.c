@@ -14,7 +14,7 @@ node* add(node* head)
 {
     node* tmp=malloc(size);
     node* ptr=head;
-    printf("Enter the Element:");
+    printf("Enter the Element: ");
     scanf("%d",&tmp->num);
     tmp->next=head;
     if(head->next==head)
@@ -33,6 +33,60 @@ node* add(node* head)
     }
     return head;
         
+}
+
+node* add_f(node* head)
+{
+    node* temp=malloc(size);
+    node* ptr=head;
+    printf("Enter the Number you want to add at the Beginning: ");
+    scanf("%d",&temp->num);
+    temp->next=head;
+    while (1)
+    {
+        if(ptr->next==head)
+        {
+            ptr->next=temp;
+            return temp;
+        }
+        ptr=ptr->next;
+    }
+    
+
+}
+
+node* remove_l(node* head)
+{
+    node* ptr=head;
+    while(1)
+    {
+        if(ptr->next->next==head)
+        {
+            node* tmp=ptr->next;
+            ptr->next=head;
+            free(tmp);
+            return head;
+        }
+        ptr=ptr->next;
+    }
+}
+
+node* rem_f(node* head)
+{
+    node* tmp=head;
+    node* ptr=head;
+    while(1)
+    {
+        if(ptr->next==head)
+        {
+            ptr->next=head->next;
+            break;
+        }
+        ptr=ptr->next;
+    }
+    head=head->next;
+    free(tmp);
+    return head;
 }
 
 void printlist(node* x)
@@ -64,16 +118,25 @@ void delete(node* n)//frees memory
 int main(void)
 {
     int n;
-    printf("Enter the size of your CLL:");
+    printf("Enter the size of your CLL: ");
     scanf("%d",&n);
     node* head =malloc(size);
-    printf("Enter the Element:");
+    printf("Enter the Element: ");
     scanf("%d",&head->num);
     head->next=head;
     for (int i = 0; i < n-1; i++)
     {
         head=add(head);
     }
+    printlist(head);
+    head=add_f(head);
+    printf("New List\n");
+    printlist(head);
+    head=remove_l(head);
+    printf("New List\n");
+    printlist(head);
+    head=rem_f(head);
+    printf("New List\n");
     printlist(head);
     delete(head);
     
