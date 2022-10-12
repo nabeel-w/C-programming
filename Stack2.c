@@ -27,12 +27,22 @@ stack* stack_create(unsigned cap)
 
 int is_full(stack* s)
 {
-      return s->cap==s->top-1;
+      return s->cap-1==s->top;
 }
 
 int is_empty(stack* s)
 {
       return s->top==-1;
+}
+
+void display_list(node* head)
+{
+      if(head==NULL)
+      {
+            return;
+      }
+      display_list(head->next);
+      printf("Element is %d\n",head->num);
 }
 
 int fetch(node* head)
@@ -53,19 +63,29 @@ int fetch(node* head)
 int fetch_l(node* head)
 {
       node* tmp;
+      node* ptr=head;
       int t;
       while(head!=NULL)
       {
-            if(head->next->next==NULL)
+            
+            if(head->next==NULL)
             {
-                  tmp=head->next;
-                  t=head->next->num;
-                  head->next=NULL;
+                  t=head->num;
+                  free(head);
+                  return t;
+            }
+            
+            else if(ptr->next->next==NULL)
+            {
+                  tmp=ptr->next;
+                  t=ptr->next->num;
+                  ptr->next=NULL;
                   free(tmp);
                   return t;
 
             }
-            head=head->next;
+            
+            ptr=ptr->next;
       }
       
 }
@@ -89,7 +109,7 @@ void push(stack* s)
 {
       if(is_full(s))
       {
-            printf("Stack is EMPTY\n");
+            printf("Stack is FULL\n");
             return;
       }
       else if(is_empty(s))
@@ -99,14 +119,12 @@ void push(stack* s)
             scanf("%d",&element);
             s->head->num=element;
             s->head->next=NULL;
-            s->top++;
-            return s;
+            s->top+=1;
       }
       else
       {
             add(s->head);
-            s->top++;
-            return s;
+            s->top+=1;
       }
 }
 
@@ -117,7 +135,7 @@ int pop(stack* s)
             printf("Stack is empty\n");
             return INT_MIN;
       }
-      s->top--;
+      s->top-=1;
       return fetch_l(s->head);
 }
 
@@ -136,12 +154,42 @@ void display_stack(stack* s)
       if(is_empty(s))
       {
             printf("Stack is empty\n");
-            return INT_MIN;
+            return ;
       }
-      int tmp=s->top;
-      while(tmp!=-1)
-      {
-            
-      }
+      printf("Stack\n");
+      display_list(s->head);
       
+}
+
+void delete(node* n)//frees memory
+{
+    if(n==NULL)
+    {
+        return;
+    }
+    delete(n->next);
+    free(n);
+
+}
+
+int main(void)
+{
+	int n;
+	printf("Enter size of Stack: ");
+	scanf("%d",&n);
+	stack* s1=stack_create(n);
+	printf("Enter Elements of Stack\n");
+      for(int i=0;i<n;i++)
+	{
+		push(s1);
+	}
+      display_stack(s1);
+      printf("\ntop=%d\n",s1->top);
+      printf("The Top element in stack is: %d\n",peek(s1));
+      push(s1);
+      while(s1->top!=-1){
+	      printf("Element poped off: %d\n",pop(s1));
+      }
+	display_stack(s1);
+      //delete(s1->head);
 }
