@@ -1,2 +1,2 @@
 # C-programming
-## This repository contains my linked list functions & codes
+## This repository contains my DSA functions & codes
