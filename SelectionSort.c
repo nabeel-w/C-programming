@@ -14,13 +14,14 @@ void selection(int arr[],int n)
         {
             if(arr[j]<arr[x])
                 x=j;
-            if(x!=i)
+            
+        }
+        if(x!=i)
             {
                 int tmp=arr[x];
                 arr[x]=arr[i];
                 arr[i]=tmp;
             }
-        }
     }
 }
 int main(void)
